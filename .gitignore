@@ -1,0 +1,8 @@
+# node dependencies
+node_modules
+
+# ParcelJS cached files
+.parcel-cache
+
+# output folder for build
+dist
