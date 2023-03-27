@@ -9,16 +9,38 @@
 </head>
 
 <body>
-  <input id="newNodeInput" type="number" placeholder="Enter a number">
-  <button id="addNodeBtn">Add Node</button>
+  <div>
+    <input id="newNodeInput" type="number" placeholder="Enter a number">
+    <button id="addNodeBtn">Add Node</button>
+  </div>
   <br>
-  <select id="nodeToDelete">
-    <option>Select a node to delete</option>
+  <div id="deleteNodeControls">
+    <select id="nodeToDelete">
+      <option>Select a node to delete</option>
+    </select>
+    <button id="deleteNodeBtn">Delete Node</button>
+  </div>
+  <br>
+  <div>
+    <input id="findNodeInput" type="number" placeholder="Enter a number to find">
+    <button id="findNodeBtn">Find Node</button>
+  </div>
+
+  <select id="listType">
+    <option value="linkedlist">Linked List</option>
+    <option value="queue">Queue</option>
+    <option value="stack">Stack</option>
   </select>
-  <button id="deleteNodeBtn">Delete Node</button>
   <br>
-  <input id="findNodeInput" type="number" placeholder="Enter a number to find">
-  <button id="findNodeBtn">Find Node</button>
+  <!-- Add the following divs for Queue and Stack -->
+  <div id="queueControls" style="display: none;">
+    <button id="enqueueBtn">Enqueue</button>
+    <button id="dequeueBtn">Dequeue</button>
+  </div>
+  <div id="stackControls" style="display: none;">
+    <button id="pushBtn">Push</button>
+    <button id="popBtn">Pop</button>
+  </div>
   <div id="linkedList"></div>
   <script src="./index.ts"></script>
 </body>
