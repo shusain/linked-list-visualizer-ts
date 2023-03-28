@@ -2,6 +2,8 @@
 
 A simple web application that allows users to interact with a linked list data structure. Users can add nodes, delete nodes, and find nodes.
 
+![Linked List Demo](linked-list-demo.png)
+
 ## Features
 
 - Add nodes with a given value
