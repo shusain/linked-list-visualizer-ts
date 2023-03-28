@@ -1,4 +1,6 @@
-class Queue {
+import { LinkedList } from "./LinkedList";
+
+export class Queue {
     linkedList: LinkedList;
   
     constructor() {

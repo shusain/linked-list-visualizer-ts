@@ -1,4 +1,6 @@
-class LinkedList {
+import { ListNode } from "./ListNode";
+
+export class LinkedList {
     head: ListNode | null;
 
     constructor() {

@@ -1,5 +1,7 @@
+import { LinkedList } from "./LinkedList";
+import { ListNode } from "./ListNode";
 
-class Stack {
+export class Stack {
     linkedList: LinkedList;
   
     constructor() {
