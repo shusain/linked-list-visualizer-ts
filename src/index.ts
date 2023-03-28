@@ -1,111 +1,3 @@
-class ListNode {
-  value: number;
-  next: ListNode | null;
-
-  constructor(value: number, next: ListNode | null = null) {
-    this.value = value;
-    this.next = next;
-  }
-}
-
-class LinkedList {
-  head: ListNode | null;
-
-  constructor() {
-    this.head = null;
-  }
-
-  addNode(value: number): void {
-    if (this.head === null) {
-      this.head = new ListNode(value);
-    } else {
-      let current = this.head;
-      while (current.next !== null) {
-        current = current.next;
-      }
-      current.next = new ListNode(value);
-    }
-  }
-
-  deleteNode(value: number): void {
-    if (this.head === null) return;
-
-    if (this.head.value === value) {
-      this.head = this.head.next;
-      return;
-    }
-
-    let current = this.head;
-    while (current.next !== null) {
-      if (current.next.value === value) {
-        current.next = current.next.next;
-        return;
-      }
-      current = current.next;
-    }
-  }
-
-  findNode(value: number): ListNode | null {
-    let current = this.head;
-    while (current !== null) {
-      if (current.value === value) {
-        return current;
-      }
-      current = current.next;
-    }
-    return null;
-  }
-
-  toArray(): number[] {
-    const array: number[] = [];
-    let current = this.head;
-    while (current !== null) {
-      array.push(current.value);
-      current = current.next;
-    }
-    return array;
-  }
-}
-
-class Queue {
-  linkedList: LinkedList;
-
-  constructor() {
-    this.linkedList = new LinkedList();
-  }
-
-  enqueue(value: number): void {
-    this.linkedList.addNode(value);
-  }
-
-  dequeue(): number | null {
-    if (this.linkedList.head === null) return null;
-    const value = this.linkedList.head.value;
-    this.linkedList.deleteNode(value);
-    return value;
-  }
-}
-
-class Stack {
-  linkedList: LinkedList;
-
-  constructor() {
-    this.linkedList = new LinkedList();
-  }
-
-  push(value: number): void {
-    const newNode = new ListNode(value, this.linkedList.head);
-    this.linkedList.head = newNode;
-  }
-
-  pop(): number | null {
-    if (this.linkedList.head === null) return null;
-    const value = this.linkedList.head.value;
-    this.linkedList.deleteNode(value);
-    return value;
-  }
-}
-
 const queue = new Queue();
 const stack = new Stack();
 const linkedList = new LinkedList();
@@ -123,10 +15,14 @@ function getCurrentLinkedList(): LinkedList {
   }
 }
 
-const listTypeSelect = document.getElementById('listType') as HTMLSelectElement;
-const linkedListControls = document.getElementById('linkedListControls');
 const queueControls = document.getElementById('queueControls');
 const stackControls = document.getElementById('stackControls');
+const nodeToDeleteSelect = document.getElementById('nodeToDelete') as HTMLSelectElement;
+const listTypeSelect = document.getElementById('listType') as HTMLSelectElement;
+const linkedListControls = document.getElementById('linkedListControls');
+const newNodeInput = document.getElementById('newNodeInput') as HTMLInputElement;
+const findNodeInput = document.getElementById('findNodeInput') as HTMLInputElement;
+const linkedListDiv = document.getElementById('linkedList') as HTMLDivElement;
 
 listTypeSelect.addEventListener('change', () => {
   const listType = listTypeSelect.value as 'linkedlist' | 'queue' | 'stack';
@@ -151,7 +47,6 @@ listTypeSelect.addEventListener('change', () => {
 
 // Queue UI interactions
 function enqueueClickHandler() {
-  const newNodeInput = document.getElementById('newNodeInput') as HTMLInputElement;
   const value = parseInt(newNodeInput.value, 10);
   if (!isNaN(value)) {
     queue.enqueue(value);
@@ -168,7 +63,6 @@ document.getElementById('dequeueBtn')?.addEventListener('click', () => {
 });
 
 function stackPushClickedHandler() {
-  const newNodeInput = document.getElementById('newNodeInput') as HTMLInputElement;
   const value = parseInt(newNodeInput.value, 10);
   if (!isNaN(value)) {
     stack.push(value);
@@ -186,13 +80,11 @@ document.getElementById('popBtn')?.addEventListener('click', () => {
 
 // Update the renderLinkedList function to accept a linked list as a parameter
 function renderLinkedList(linkedListToRender: LinkedList): void {
-  const linkedListDiv = document.getElementById('linkedList') as HTMLDivElement;
   const nodes = linkedListToRender.toArray();
   linkedListDiv.innerHTML = nodes.join(' -> ');
 
   // Update the nodeToDeleteSelect only if the listType is 'linkedlist'
   if (listTypeSelect.value === 'linkedlist') {
-    const nodeToDeleteSelect = document.getElementById('nodeToDelete') as HTMLSelectElement;
     nodeToDeleteSelect.innerHTML = '<option>Select a node to delete</option>';
     nodes.forEach(node => {
       const option = document.createElement('option');
@@ -211,7 +103,6 @@ document.getElementById('addNodeBtn')?.addEventListener('click', () => {
     enqueueClickHandler()
     return;
   }
-  const newNodeInput = document.getElementById('newNodeInput') as HTMLInputElement;
   const value = parseInt(newNodeInput.value, 10);
   if (!isNaN(value)) {
     linkedList.addNode(value);
@@ -221,7 +112,6 @@ document.getElementById('addNodeBtn')?.addEventListener('click', () => {
 });
 
 document.getElementById('deleteNodeBtn')?.addEventListener('click', () => {
-  const nodeToDeleteSelect = document.getElementById('nodeToDelete') as HTMLSelectElement;
   const value = parseInt(nodeToDeleteSelect.value, 10);
   if (!isNaN(value)) {
     linkedList.deleteNode(value);
@@ -231,10 +121,8 @@ document.getElementById('deleteNodeBtn')?.addEventListener('click', () => {
 
 
 document.getElementById('findNodeBtn')?.addEventListener('click', () => {
-  const findNodeInput = document.getElementById('findNodeInput') as HTMLInputElement;
   const value = parseInt(findNodeInput.value, 10);
   const foundNode = getCurrentLinkedList().findNode(value);
-  const linkedListDiv = document.getElementById('linkedList') as HTMLDivElement;
 
   if (foundNode !== null) {
     linkedListDiv.innerHTML = `Node with value ${value} found!`;
