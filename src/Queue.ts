@@ -1,4 +1,5 @@
 import { LinkedList } from "./LinkedList";
+import Person from "./Person";
 
 export class Queue {
     linkedList: LinkedList;
@@ -7,15 +8,15 @@ export class Queue {
       this.linkedList = new LinkedList();
     }
   
-    enqueue(value: number): void {
-      this.linkedList.addNode(value);
+    enqueue(person: Person): void {
+      this.linkedList.addNode(person);
     }
   
-    dequeue(): number | null {
+    dequeue(): Person| null {
       if (this.linkedList.head === null) return null;
-      const value = this.linkedList.head.value;
-      this.linkedList.deleteNode(value);
-      return value;
+      const person = this.linkedList.head.person;
+      this.linkedList.deleteNode(person);
+      return person;
     }
   }
   

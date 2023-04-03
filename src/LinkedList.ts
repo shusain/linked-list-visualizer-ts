@@ -1,4 +1,5 @@
 import { ListNode } from "./ListNode";
+import Person from "./Person";
 
 export class LinkedList {
     head: ListNode | null;
@@ -7,29 +8,29 @@ export class LinkedList {
         this.head = null;
     }
 
-    addNode(value: number): void {
+    addNode(person: Person): void {
         if (this.head === null) {
-            this.head = new ListNode(value);
+            this.head = new ListNode(person);
         } else {
             let current = this.head;
             while (current.next !== null) {
                 current = current.next;
             }
-            current.next = new ListNode(value);
+            current.next = new ListNode(person);
         }
     }
 
-    deleteNode(value: number): void {
+    deleteNode(person: Person): void {
         if (this.head === null) return;
 
-        if (this.head.value === value) {
+        if (this.head.person === person) {
             this.head = this.head.next;
             return;
         }
 
         let current = this.head;
         while (current.next !== null) {
-            if (current.next.value === value) {
+            if (current.next.person === person) {
                 current.next = current.next.next;
                 return;
             }
@@ -37,10 +38,10 @@ export class LinkedList {
         }
     }
 
-    findNode(value: number): ListNode | null {
+    findNode(idToFind: number): ListNode | null {
         let current = this.head;
         while (current !== null) {
-            if (current.value === value) {
+            if (current.person.id === idToFind) {
                 return current;
             }
             current = current.next;
@@ -48,11 +49,11 @@ export class LinkedList {
         return null;
     }
 
-    toArray(): number[] {
-        const array: number[] = [];
+    toArray(): string[] {
+        const array: string[] = [];
         let current = this.head;
         while (current !== null) {
-            array.push(current.value);
+            array.push(current.person.output());
             current = current.next;
         }
         return array;

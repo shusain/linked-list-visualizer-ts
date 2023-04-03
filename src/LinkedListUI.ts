@@ -1,4 +1,6 @@
 import { LinkedList } from "./LinkedList";
+import Person from "./Person";
+import { PriorityQueue } from "./PriorityQueue";
 import { Queue } from "./Queue";
 import { Stack } from "./Stack";
 
@@ -6,7 +8,7 @@ export class LinkedListUI {
   
   constructor(
     private linkedList = new LinkedList,
-    private queue = new Queue,
+    private queue = new PriorityQueue,
     private stack = new Stack,
 
 
@@ -17,6 +19,7 @@ export class LinkedListUI {
     private listTypeSelect = document.getElementById('listType') as HTMLSelectElement,
     private linkedListControls = document.getElementById('linkedListControls'),
     private newNodeInput = document.getElementById('newNodeInput') as HTMLInputElement,
+    private newNodeNameInput = document.getElementById('newNodeNameInput') as HTMLInputElement,
     private findNodeInput = document.getElementById('findNodeInput') as HTMLInputElement,
     private linkedListDiv = document.getElementById('linkedList') as HTMLDivElement,
   ) {
@@ -96,9 +99,11 @@ export class LinkedListUI {
 
   private enqueueClickHandler(): void {
     if (!this.newNodeInput) return;
-    const value = parseInt(this.newNodeInput.value, 10);
-    if (!isNaN(value)) {
-      this.queue.enqueue(value);
+    if (!this.newNodeNameInput) return;
+    const id = parseInt(this.newNodeInput.value, 10);
+    const name = this.newNodeNameInput.value;
+    if (!isNaN(id)) {
+      this.queue.enqueue(new Person({id: id, name}));
       this.newNodeInput.value = '';
       this.renderLinkedList(this.queue.linkedList);
     }
@@ -134,20 +139,28 @@ export class LinkedListUI {
     }
 
     if (!this.newNodeInput) return;
+    if (!this.newNodeNameInput) return;
 
-    const value = parseInt(this.newNodeInput.value, 10);
-    if (!isNaN(value)) {
-      this.linkedList.addNode(value);
+    const name = this.newNodeNameInput.value;
+    const id = parseInt(this.newNodeInput.value, 10);
+
+    if (!isNaN(id)) {
+      this.linkedList.addNode(new Person({id, name}));
       this.newNodeInput.value = '';
+      this.newNodeNameInput.value = ''
       this.renderLinkedList(this.linkedList);
     }
   }
 
   private deleteNodeBtnClickHandler(): void {
     if (!this.nodeToDeleteSelect) return;
-    const value = parseInt(this.nodeToDeleteSelect.value, 10);
-    if (!isNaN(value)) {
-      this.linkedList.deleteNode(value);
+    const id = parseInt(this.nodeToDeleteSelect.value, 10);
+
+    if (!this.newNodeNameInput) return;
+    const name = this.newNodeNameInput.value;
+
+    if (!isNaN(id)) {
+      this.linkedList.deleteNode(new Person({id, name}));
       this.renderLinkedList(this.linkedList);
     }
   }
@@ -155,16 +168,19 @@ export class LinkedListUI {
   private findNodeBtnClickHandler(): void {
     if (!this.findNodeInput) return;
 
-    const value = parseInt(this.findNodeInput.value, 10);
-    const foundNode = this.getCurrentLinkedList().findNode(value);
+    const id = parseInt(this.findNodeInput.value, 10);
+
+    if (!this.newNodeNameInput) return;
+    const name = this.newNodeNameInput.value;
+    const foundNode = this.getCurrentLinkedList().findNode(id);
 
     if (!this.linkedListDiv) return;
 
     if (foundNode !== null) {
-      this.linkedListDiv.innerHTML = `Node with value ${value} found!`;
+      this.linkedListDiv.innerHTML = `Node with value ${id} found!`;
       this.linkedListDiv?.classList.remove('alert');
     } else {
-      this.linkedListDiv.innerHTML = `Node with value ${value} not found.`;
+      this.linkedListDiv.innerHTML = `Node with value ${id} not found.`;
       this.linkedListDiv.classList.add('alert');
     }
 

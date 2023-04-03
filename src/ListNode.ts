@@ -1,9 +1,11 @@
+import Person from "./Person";
+
 export class ListNode {
-    value: number;
+    person: Person;
     next: ListNode | null;
 
-    constructor(value: number, next: ListNode | null = null) {
-        this.value = value;
+    constructor(person: Person, next: ListNode | null = null) {
+        this.person = person;
         this.next = next;
     }
 }
